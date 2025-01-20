@@ -1,10 +1,6 @@
 shape = {}
-shape.extends = function(obj, x, y, speed)
+shape.extends = function(obj, x, y, type)
     obj.x = x or math.random(0, 700)
     obj.y = y or math.random(0, 700)
-    obj.speed = speed or math.random(100, 300)
-
-	obj.update = function(self, deltaTime) 
-		self.x = self.x + self.speed * deltaTime
-	end
+    obj.type = type or "rectangle"
 end
