@@ -1,6 +1,7 @@
+require("classes/Input")
+require("classes/Physics")
 require("classes/Rectangle")
 require("classes/Circle")
-require("classes/Physics")
 
 tick = require "libs/tick"
 audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
@@ -31,18 +32,7 @@ function love.update(deltaTime)
 		else mode = "line"
 	end
 
-	if love.keyboard.isDown("a") then
-		player.x = player.x - player.speed * deltaTime
-	end
-	if love.keyboard.isDown("w") then
-		player.y = player.y - player.speed * deltaTime
-	end
-	if love.keyboard.isDown("s") then
-		player.y = player.y + player.speed * deltaTime
-	end
-	if love.keyboard.isDown("d") then
-		player.x = player.x + player.speed * deltaTime
-	end
+	inputUpdate(deltaTime)
 end
 
 function love.draw()
