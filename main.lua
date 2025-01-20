@@ -1,21 +1,35 @@
 require("classes/Rectangle")
 require("classes/Circle")
+require("classes/Physics")
+
 tick = require "libs/tick"
 audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
 shapes = {}
 player = {}
+obstacle= {}
 
 function love.load()
 	love.audio.play(audio1)
 	love.graphics.setColor(0.5, 0.5, 1)
 	love.window.setTitle("serene")
+
 	player = newRectangle(0, 0, 100, 100)
 	table.insert(shapes, player)
+
+	obstacle = newRectangle(400, 400, 100, 100)
+	table.insert(shapes, obstacle)
+
 	player.speed = 200
+	mode = "line"
 end
 
 function love.update(deltaTime)
 	tick.update(deltaTime)
+
+	if checkCollision(player, obstacle)
+		then mode = "fill"
+		else mode = "line"
+	end
 
 	if love.keyboard.isDown("a") then
 		player.x = player.x - player.speed * deltaTime
@@ -33,7 +47,7 @@ end
 
 function love.draw()
 	for i,s in ipairs(shapes) do
-		s:draw()
+		s:draw(mode)
 	end
 end
 
