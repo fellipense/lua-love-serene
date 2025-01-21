@@ -1,52 +1,45 @@
+require("classes/GameObject")
 require("classes/Input")
 require("classes/Physics")
-require("classes/Rectangle")
-require("classes/Circle")
 
 tick = require "libs/tick"
 audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
-shapes = {}
-player = {}
-obstacle= {}
+gameObjects = {}
 
 function love.load()
 	love.audio.play(audio1)
 	love.graphics.setColor(0.5, 0.5, 1)
 	love.window.setTitle("serene")
 
-	player = newRectangle(0, 0, 100, 100)
-	table.insert(shapes, player)
+	player = newGameObject(0, 0, 0, 0, 1)
+	player.speed = 100
+	player.sprite = love.graphics.newImage("sprites/ship.png")
+	player.xPivot = player.sprite:getWidth()/2
+	player.yPivot = player.sprite:getHeight()/2
+	player.draw = function()
+		love.graphics.draw(
+			player.sprite, 
+			player.transform.x, 
+			player.transform.y, 
+			player.transform.r,
+			player.transform.size, player.transform.size,
+			player.xPivot, player.yPivot
+		)
+	end
 
-	obstacle = newRectangle(400, 400, 100, 100)
-	table.insert(shapes, obstacle)
-
-	player.speed = 200
-	mode = "line"
+	table.insert(gameObjects, player)
 end
 
 function love.update(deltaTime)
 	tick.update(deltaTime)
-
-	if checkCollision(player, obstacle)
-		then mode = "fill"
-		else mode = "line"
-	end
-
 	inputUpdate(deltaTime)
 end
 
 function love.draw()
-	for i,s in ipairs(shapes) do
+	for i,s in ipairs(gameObjects) do
 		s:draw(mode)
 	end
 end
 
 function love.keypressed(key)
-	if key == "1" then
-		table.insert(shapes, newRectangle(nil, nil, 100))
-	end
-
-	if key == "2" then
-		table.insert(shapes, newCircle(nil, nil, 100))
-	end
 end
