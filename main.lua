@@ -11,9 +11,13 @@ function love.load()
 	love.graphics.setColor(0.5, 0.5, 1)
 	love.window.setTitle("serene")
 
+	playerScreenPadding = 20
+
 	player = newGameObject(0, 0, 0, 0, 1)
-	player.speed = 100
+	player.speed = 500
 	player.sprite = love.graphics.newImage("sprites/ship.png")
+	player.transform.x = player.sprite:getWidth()/2 + playerScreenPadding
+	player.transform.y = love.graphics.getHeight() - (player.sprite:getHeight()/2 + playerScreenPadding)
 	player.xPivot = player.sprite:getWidth()/2
 	player.yPivot = player.sprite:getHeight()/2
 	player.draw = function()
