@@ -8,7 +8,6 @@ require("player")
 tick = require "libs/tick"
 audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
 gameObjects = {}
-destroyIt = false
 
 function love.load()
 	love.audio.play(audio1)
@@ -24,8 +23,9 @@ function love.update(deltaTime)
 
 	for i,s in ipairs(gameObjects) do
 		s:update(deltaTime)
-		if destroyIt then
-			table.remove(s)
+
+		if s.destroyIt then
+			table.remove(gameObjects, i)
 		end
 	end
 end
@@ -42,7 +42,7 @@ function love.keypressed(key)
 			player.transform.x,
 			player.transform.y,
 			player.transform.z,
-			"up", 100, 100
+			"up", nil, 100
 		)
 		table.insert(gameObjects, bullet)
 	end
