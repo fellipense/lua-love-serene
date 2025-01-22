@@ -1,3 +1,4 @@
+require("classes/Physics")
 require("classes/GameObject")
 
 function newProjectile(x, y, z, direction, speed, size)
@@ -8,16 +9,24 @@ function newProjectile(x, y, z, direction, speed, size)
     projectile.destroyIt = false
     projectile.transform.size = 5
 
-    projectile.draw = function(self)
-        love.graphics.circle("fill", self.transform.x, self.transform.y, self.transform.size)
+    projectile.circleCollisor = newCircleCollisor(projectile);
+
+    projectile.draw = function(self, mode)
+        love.graphics.circle("fill", 
+            self.transform.x, 
+            self.transform.y, 
+            self.transform.size
+        )
     end
      
     projectile.update = function(self, deltaTime) 
+        self.circleCollisor:update(deltaTime)
+
         if self.direction == "up" then
             self.transform.y = self.transform.y - self.speed * deltaTime
         end
 
-        if self.transform.y < self.transform.size then
+        if self.circleCollisor.globalY < self.circleCollisor.radius then
             self.destroyIt = true
         end
     end

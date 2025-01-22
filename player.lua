@@ -14,7 +14,7 @@ player.speed = 500
 player.xPivot = player.sprite:getWidth()/2
 player.yPivot = player.sprite:getHeight()/2
 
-player.draw = function()
+player.draw = function(mode)
     
     if not player.display then return nil end
 

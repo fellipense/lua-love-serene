@@ -41,7 +41,8 @@ function love.keypressed(key)
 		bullet = newProjectile(
 			player.transform.x,
 			player.transform.y,
-			player.transform.z -1
+			player.transform.z -1,
+			nil, 10
 		)
 		addGameObject(bullet)
 	end
