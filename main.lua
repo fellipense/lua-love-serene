@@ -4,6 +4,7 @@ require("classes/Physics")
 require("classes/Projectile")
 
 require("player")
+require("functions")
 
 tick = require "libs/tick"
 audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
@@ -11,10 +12,9 @@ gameObjects = {}
 
 function love.load()
 	love.audio.play(audio1)
-	love.graphics.setColor(0.5, 0.5, 1)
 	love.window.setTitle("serene")
 
-	table.insert(gameObjects, player)
+	addGameObject(player)
 end
 
 function love.update(deltaTime)
@@ -41,9 +41,8 @@ function love.keypressed(key)
 		bullet = newProjectile(
 			player.transform.x,
 			player.transform.y,
-			player.transform.z,
-			"up", nil, 100
+			player.transform.z -1
 		)
-		table.insert(gameObjects, bullet)
+		addGameObject(bullet)
 	end
 end
