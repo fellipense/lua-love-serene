@@ -17,7 +17,6 @@ function newProjectile(x, y, z, radius, direction, speed)
             self.transform.y, 
             self.transform.size * self.radius
         )
-        self.circleCollisor:draw()
     end
      
     projectile.update = function(self, deltaTime) 
