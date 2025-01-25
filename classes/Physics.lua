@@ -20,6 +20,44 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
             self.radius
         )
         love.graphics.setColor(1, 1, 1)
+
+        for i,o in ipairs(gameObjects) do
+            if o.rectangleCollisor ~= nil then
+                local closePoint = {}
+                closePoint.x = clamp(
+                    o.rectangleCollisor.globalX,
+                    o.rectangleCollisor.globalX + o.rectangleCollisor.width,
+                    self.globalX
+                )
+                closePoint.y = clamp(
+                    o.rectangleCollisor.globalY,
+                    o.rectangleCollisor.globalY + o.rectangleCollisor.height,
+                    self.globalY
+                )
+                love.graphics.line(
+                    self.globalX, self.globalY, 
+                    closePoint.x, closePoint.y
+                )
+
+                if checkCircleToRectangleCollision(self, o.rectangleCollisor) then
+                    self.color.r = 1
+                    self.color.g = 0
+                    self.color.b = 0
+
+                    o.rectangleCollisor.color.r = 1
+                    o.rectangleCollisor.color.g = 0
+                    o.rectangleCollisor.color.b = 0
+                else 
+                    self.color.r = 0
+                    self.color.g = 1
+                    self.color.b = 0
+
+                    o.rectangleCollisor.color.r = 0
+                    o.rectangleCollisor.color.g = 1
+                    o.rectangleCollisor.color.b = 0
+                end
+            end
+        end
     end
 
     circleCollisor.update = function(self, deltaTime)
@@ -76,6 +114,26 @@ function checkCircleToCircleCollision(a, b)
         (a.radius + b.radius)^2
 end
 
+function checkCircleToRectangleCollision(a, b)
+    local closerPoint = {}
+
+    closerPoint.x = clamp(
+        b.globalX,
+        b.globalX + b.width,
+        a.globalX
+    )
+
+    closerPoint.y = clamp(
+        b.globalY,
+        b.globalY + b.height,
+        a.globalY
+    )
+
+    return (a.globalX - closerPoint.x)^2 + 
+        (a.globalY - closerPoint.y)^2 < 
+        (a.radius)^2
+end
+
 function checkCircleToBoundaryCollision(a, b)
 
     if b == "top" and a.globalY < a.radius then
@@ -92,5 +150,15 @@ function checkCircleToBoundaryCollision(a, b)
 
     if b == "left" and a.globalX < a.radius then
         return true
+    end
+end
+
+function clamp(min, max, value)
+    if value > max 
+        then return max
+    elseif value < min 
+        then return min
+    else 
+        return value 
     end
 end

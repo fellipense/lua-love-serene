@@ -38,23 +38,6 @@ function newProjectile(x, y, z, radius, speed, direction)
         if checkCircleToBoundaryCollision(self.circleCollisor, "top")
             then self.destroyIt = true
         end
-
-        for i,o in ipairs(gameObjects) do
-            -- ALGUNS GAMEOBJECTS NÃO TEM COLISORES, ISSO ESTÁ DANDO PROBLEMAS
-            if o.circleCollisor == nil then
-                goto continue
-            end
-            if checkCircleToCircleCollision(self.circleCollisor, o.circleCollisor) then
-                o.circleCollisor.color.r = 0  
-                o.circleCollisor.color.g = 1  
-                o.circleCollisor.color.b = 0  
-            else
-                o.circleCollisor.color.r = 1  
-                o.circleCollisor.color.g = 1  
-                o.circleCollisor.color.b = 1  
-            end
-            ::continue::
-        end
     end
 
     return projectile
