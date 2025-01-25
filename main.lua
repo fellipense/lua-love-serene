@@ -12,15 +12,17 @@ gameObjects = {}
 elapsedTime = 0
 
 dummy = newGameObject(100, 100, nil, nil, nil)
-dummy.radius = 100
-dummy.circleCollisor = newCircleCollisor(dummy, nil, nil, nil, dummy.radius)
+dummy.width = 100
+dummy.height = 100
+dummy.rectangleCollisor = newRectangleCollisor(dummy, nil, nil, 10, 10)
 dummy.draw = function(self, mode)
-	love.graphics.circle(mode or "line",
+	love.graphics.rectangle(mode or "line",
 		self.transform.x,
 		self.transform.y,
-		self.radius
+		self.width,
+		self.height
 	)
-	self.circleCollisor:draw()
+	self.rectangleCollisor:draw()
 end
 
 addGameObject(dummy)
@@ -52,6 +54,7 @@ function love.draw()
 		s:draw(mode)
 	end
 	love.graphics.print(elapsedTime)
+	love.graphics.print(table.getn(gameObjects), love.graphics.getWidth() - 10)
 end
 
 function love.keypressed(key)

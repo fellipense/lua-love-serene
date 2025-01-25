@@ -1,7 +1,7 @@
 require("classes/Physics")
 require("classes/GameObject")
 
-function newProjectile(x, y, z, radius, direction, speed)
+function newProjectile(x, y, z, radius, speed, direction)
     projectile = newGameObject(x, y, z, 0, 1);
 
     projectile.direction = direction or "up"
@@ -35,7 +35,7 @@ function newProjectile(x, y, z, radius, direction, speed)
             self.transform.x = self.transform.x - self.speed * deltaTime
         end
 
-        if checkCircleToBoundaryCollision(self, "top")
+        if checkCircleToBoundaryCollision(self.circleCollisor, "top")
             then self.destroyIt = true
         end
 
@@ -44,7 +44,7 @@ function newProjectile(x, y, z, radius, direction, speed)
             if o.circleCollisor == nil then
                 goto continue
             end
-            if checkCircleToCircleCollision(self, o) then
+            if checkCircleToCircleCollision(self.circleCollisor, o.circleCollisor) then
                 o.circleCollisor.color.r = 0  
                 o.circleCollisor.color.g = 1  
                 o.circleCollisor.color.b = 0  

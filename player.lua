@@ -13,6 +13,13 @@ player.sprite = sprite
 player.speed = 500
 player.xPivot = player.sprite:getWidth()/2
 player.yPivot = player.sprite:getHeight()/2
+player.rectangleCollisor = newRectangleCollisor(player, 30, 20)
+
+player.update = function(deltaTime)
+    player.rectangleCollisor:update(deltaTime)
+    player.rectangleCollisor:centralize()
+
+end
 
 player.draw = function(mode)
     
@@ -26,4 +33,6 @@ player.draw = function(mode)
         player.transform.size, player.transform.size,
         player.xPivot, player.yPivot
     )
+
+    player.rectangleCollisor:draw()
 end
