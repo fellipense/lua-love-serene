@@ -25,9 +25,18 @@ function newProjectile(x, y, z, radius, direction, speed)
         if self.direction == "up" then
             self.transform.y = self.transform.y - self.speed * deltaTime
         end
+        if self.direction == "right" then
+            self.transform.x = self.transform.x + self.speed * deltaTime
+        end
+        if self.direction == "down" then
+            self.transform.y = self.transform.y + self.speed * deltaTime
+        end
+        if self.direction == "left" then
+            self.transform.x = self.transform.x - self.speed * deltaTime
+        end
 
-        if self.circleCollisor.globalY < self.circleCollisor.radius then
-            self.destroyIt = true
+        if checkCircleToBoundaryCollision(self, "top")
+            then self.destroyIt = true
         end
 
         for i,o in ipairs(gameObjects) do

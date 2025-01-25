@@ -56,7 +56,7 @@ end
 
 function love.keypressed(key)
 	if key == "space" then
-		bullet = newProjectile(
+		local bullet = newProjectile(
 			player.transform.x,
 			player.transform.y,
 			player.transform.z -1

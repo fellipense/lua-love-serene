@@ -31,7 +31,30 @@ function newCircleCollisor(parent, xOffset, yOffset, z, radius)
 end
 
 function checkCircleToCircleCollision(a, b)
-    return (a.circleCollisor.globalX - b.circleCollisor.globalX)^2 + 
-        (a.circleCollisor.globalY - b.circleCollisor.globalY)^2 < 
-        (a.circleCollisor.radius + b.circleCollisor.radius)^2
+    aCol = a.circleCollisor
+    bCol = b.circleCollisor
+
+    return (aCol.globalX - bCol.globalX)^2 + 
+        (aCol.globalY - bCol.globalY)^2 < 
+        (aCol.radius + bCol.radius)^2
+end
+
+function checkCircleToBoundaryCollision(a, b)
+    aCol = a.circleCollisor
+
+    if b == "top" and aCol.globalY < aCol.radius then
+        return true
+    end
+
+    if b == "right" and aCol.globalX + aCol.radius > love.graphics.getWidth() then
+        return true
+    end
+
+    if b == "bottom" and aCol.globalY + aCol.radius > love.graphics.getHeight() then
+        return true
+    end
+
+    if b == "left" and aCol.globalX < aCol.radius then
+        return true
+    end
 end
