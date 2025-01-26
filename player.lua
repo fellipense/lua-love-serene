@@ -12,7 +12,7 @@ player = newGameObject(
 )
 
 player.sprite = sprite
-player.speed = 200
+player.speed = 400
 player.xPivot = player.sprite:getWidth()/2
 player.yPivot = player.sprite:getHeight()/2
 player.rectangleCollisor = newRectangleCollisor(player, 30, 20)

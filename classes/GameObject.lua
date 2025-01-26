@@ -9,7 +9,6 @@ function newGameObject(x, y, z, r, size)
         return true
     end
 
-
     return gameObject
 end
 
