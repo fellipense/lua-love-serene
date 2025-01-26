@@ -10,6 +10,7 @@ tick = require "libs/tick"
 audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
 gameObjects = {}
 elapsedTime = 0
+fps = 0
 
 dummy = newGameObject(100, 100, nil, nil, nil)
 dummy.width = 100
@@ -36,6 +37,10 @@ function love.load()
 end
 
 function love.update(deltaTime)
+	if elapsedTime + deltaTime > math.ceil(elapsedTime) then 
+		fps = math.floor(1 / deltaTime);
+	end
+
 	elapsedTime = elapsedTime + deltaTime
 	tick.update(deltaTime)
 	inputUpdate(deltaTime)
@@ -53,7 +58,7 @@ function love.draw()
 	for i,s in ipairs(gameObjects) do
 		s:draw(mode)
 	end
-	love.graphics.print(elapsedTime)
+	love.graphics.print(string.format("FPS: %d", fps), 10, 10)
 	love.graphics.print(table.getn(gameObjects), love.graphics.getWidth() - 10)
 end
 

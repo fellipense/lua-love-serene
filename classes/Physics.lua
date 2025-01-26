@@ -22,6 +22,19 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
         love.graphics.setColor(1, 1, 1)
 
         for i,o in ipairs(gameObjects) do
+
+            if o.circleCollisor ~= nil then
+                
+                if checkCircleToCircleCollision(self, o.circleCollisor) then
+                    self.color.r = 1
+                    self.color.g = 0
+                    self.color.b = 0
+                end
+                    self.color.r = 0
+                    self.color.g = 1
+                    self.color.b = 0
+            end
+
             if o.rectangleCollisor ~= nil then
                 local closePoint = {}
                 closePoint.x = clamp(
@@ -43,18 +56,10 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
                     self.color.r = 1
                     self.color.g = 0
                     self.color.b = 0
-
-                    o.rectangleCollisor.color.r = 1
-                    o.rectangleCollisor.color.g = 0
-                    o.rectangleCollisor.color.b = 0
                 else 
                     self.color.r = 0
                     self.color.g = 1
                     self.color.b = 0
-
-                    o.rectangleCollisor.color.r = 0
-                    o.rectangleCollisor.color.g = 1
-                    o.rectangleCollisor.color.b = 0
                 end
             end
         end
@@ -132,6 +137,14 @@ function checkCircleToRectangleCollision(a, b)
     return (a.globalX - closerPoint.x)^2 + 
         (a.globalY - closerPoint.y)^2 < 
         (a.radius)^2
+end
+
+function checkRectangleToRectangleCollision(a, b)
+
+    return a.globalY < b.globalY + b.height
+        or a.globalX + a.width > b.globalX
+        or a.globalY + a.height > b.globalY
+        or a.globalX < b.globalX + b.width
 end
 
 function checkCircleToBoundaryCollision(a, b)
