@@ -23,18 +23,6 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
 
         for i,o in ipairs(gameObjects) do
 
-            if o.circleCollisor ~= nil then
-                
-                if checkCircleToCircleCollision(self, o.circleCollisor) then
-                    self.color.r = 1
-                    self.color.g = 0
-                    self.color.b = 0
-                end
-                    self.color.r = 0
-                    self.color.g = 1
-                    self.color.b = 0
-            end
-
             if o.rectangleCollisor ~= nil then
                 local closePoint = {}
                 closePoint.x = clamp(
@@ -51,6 +39,29 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
                     self.globalX, self.globalY, 
                     closePoint.x, closePoint.y
                 )
+            end
+        end
+    end
+
+    circleCollisor.update = function(self, deltaTime)
+        self.globalX = parent.transform.x + circleCollisor.xOffset
+        self.globalY = parent.transform.y + circleCollisor.yOffset
+
+        for i,o in ipairs(gameObjects) do
+
+            if o.circleCollisor ~= nil then
+                
+                if checkCircleToCircleCollision(self, o.circleCollisor) then
+                    self.color.r = 1
+                    self.color.g = 0
+                    self.color.b = 0
+                end
+                    self.color.r = 0
+                    self.color.g = 1
+                    self.color.b = 0
+            end
+
+            if o.rectangleCollisor ~= nil then
 
                 if checkCircleToRectangleCollision(self, o.rectangleCollisor) then
                     self.color.r = 1
@@ -63,11 +74,6 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
                 end
             end
         end
-    end
-
-    circleCollisor.update = function(self, deltaTime)
-        self.globalX = parent.transform.x + circleCollisor.xOffset
-        self.globalY = parent.transform.y + circleCollisor.yOffset
     end
 
     return circleCollisor
