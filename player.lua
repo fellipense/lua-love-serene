@@ -14,19 +14,15 @@ player.speed = 200
 player.xPivot = player.sprite:getWidth()/2
 player.yPivot = player.sprite:getHeight()/2
 player.rectangleCollisor = newRectangleCollisor(player, 30, 20)
-player.circleCollisor = newCircleCollisor(player, 20, 0, -50)
 
 player.update = function(deltaTime)
     player.rectangleCollisor:update(deltaTime)
-    player.circleCollisor:update(deltaTime)
     player.rectangleCollisor:centralize()
 
     for i,o in ipairs(gameObjects) do
         if o.rectangleCollisor == nil then
             goto continue
         end
-
-        checkCircleToRectangleCollision(player.circleCollisor, o.rectangleCollisor)
 
         ::continue::
     end
@@ -45,6 +41,7 @@ player.draw = function(mode)
         player.xPivot, player.yPivot
     )
 
-    player.rectangleCollisor:draw()
-    player.circleCollisor:draw()
+    if drawCollisors then
+        player.rectangleCollisor:draw()
+    end
 end

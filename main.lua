@@ -10,6 +10,7 @@ audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
 gameObjects = {}
 elapsedTime = 0
 fps = 0
+drawCollisors = false
 
 dummy = newGameObject(100, 100, nil, nil, nil)
 dummy.width = 100
@@ -22,7 +23,10 @@ dummy.draw = function(self, mode)
 		self.width,
 		self.height
 	)
-	self.rectangleCollisor:draw()
+
+	if drawCollisors then
+		self.rectangleCollisor:draw()
+	end
 end
 
 dummy.update = function(deltaTime)
@@ -68,10 +72,15 @@ end
 function love.keypressed(key)
 	if key == "space" then
 		local bullet = newProjectile(
+			player,
 			player.transform.x,
 			player.transform.y,
 			player.transform.z -1
 		)
 		addGameObject(bullet)
+	end
+
+	if key == "'" then
+		drawCollisors = not drawCollisors
 	end
 end
