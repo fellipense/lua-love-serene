@@ -1,8 +1,14 @@
-require("classes/Physics")
 require("classes/GameObject")
+require("physics")
 
 function newProjectile(author, x, y, z, radius, speed, direction)
-    projectile = newGameObject(x, y, z, 0, 1);
+    projectile = newGameObject(
+        author.transform.x, 
+        author.transform.y, 
+        author.transform.z, 
+        0, 
+        1
+    );
 
     projectile.direction = direction or "up"
     projectile.speed = speed or 1000

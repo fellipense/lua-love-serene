@@ -1,11 +1,11 @@
 require("classes/GameObject")
-require("classes/Input")
-require("classes/Physics")
 require("classes/Projectile")
 
 require("game")
 require("player")
 require("functions")
+require("physics")
+require("input")
 
 audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
 
@@ -38,12 +38,13 @@ function love.load()
 end
 
 function love.update(deltaTime)
+
 	if elapsedTime + deltaTime > math.ceil(elapsedTime) then 
 		fps = math.floor(1 / deltaTime);
 	end
 
 	elapsedTime = elapsedTime + deltaTime
-	inputUpdate(deltaTime)
+	input.update(deltaTime)
 
 	for i,s in ipairs(gameObjects) do
 		s:update(deltaTime)
@@ -59,20 +60,4 @@ function love.draw()
 		s:draw(mode)
 	end
 	debug()
-end
-
-function love.keypressed(key)
-	if key == "space" then
-		local bullet = newProjectile(
-			player,
-			player.transform.x,
-			player.transform.y,
-			player.transform.z -1
-		)
-		addGameObject(bullet)
-	end
-
-	if key == "'" then
-		drawCollisors = not drawCollisors
-	end
 end

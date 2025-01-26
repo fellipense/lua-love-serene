@@ -1,4 +1,6 @@
 require("classes/GameObject")
+require("classes/Projectile")
+require("input")
 
 playerScreenPadding = 20
 sprite = love.graphics.newImage("sprites/ship.png")
@@ -16,9 +18,30 @@ player.yPivot = player.sprite:getHeight()/2
 player.rectangleCollisor = newRectangleCollisor(player, 30, 20)
 player.destroyIt = false
 
-player.update = function(deltaTime)
+player.update = function(self, deltaTime)
     player.rectangleCollisor:update(deltaTime)
     player.rectangleCollisor:centralize()
+
+    if input.up then
+        player.transform.y = player.transform.y - player.speed * deltaTime
+    end
+
+    if input.right then
+        player.transform.x = player.transform.x + player.speed * deltaTime
+    end
+
+    if input.down then
+        player.transform.y = player.transform.y + player.speed * deltaTime
+    end
+
+    if input.left then
+        player.transform.x = player.transform.x - player.speed * deltaTime
+    end
+
+    if input.press.action then
+        input.press.action = false
+        addGameObject(newProjectile(player))
+    end
 end
 
 player.draw = function(mode)
