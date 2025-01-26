@@ -132,9 +132,6 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
                 end
             end
 
-            -- testando git
-            -- mais um teste
-
             if o.circleCollisor ~= nil then
 
                 if checkCircleToRectangleCollision(o.circleCollisor, self) then
