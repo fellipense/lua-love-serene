@@ -43,6 +43,11 @@ function love.update(deltaTime)
 		fps = math.floor(1 / deltaTime);
 	end
 
+	if input.press.debug then
+		input.press.debug = false
+		debug = not debug
+	end
+
 	elapsedTime = elapsedTime + deltaTime
 	input.update(deltaTime)
 
@@ -59,5 +64,11 @@ function love.draw()
 	for i,s in ipairs(gameObjects) do
 		s:draw(mode)
 	end
-	debug()
+	
+	if debug then
+		drawCollisors = true
+		log()
+	else
+		drawCollisors = false
+	end
 end

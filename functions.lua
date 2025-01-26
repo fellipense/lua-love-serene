@@ -17,7 +17,7 @@ function clamp(min, max, value)
     end
 end
 
-function debug()
+function log()
     for i,o in ipairs(gameObjects) do
         if o.transform == nil then goto continue end
 
