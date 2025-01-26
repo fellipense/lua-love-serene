@@ -1,5 +1,6 @@
 function newCircleCollisor(parent, radius, xOffset, yOffset, z)
     local circleCollisor = {}
+    circleCollisor.parent = parent
     circleCollisor.xOffset = xOffset or 0
     circleCollisor.yOffset = yOffset or 0
     circleCollisor.z = z or 1
@@ -81,6 +82,7 @@ end
 
 function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
     local rectangleCollisor = {}
+    rectangleCollisor.parent = parent
     rectangleCollisor.xOffset = xOffset or 0
     rectangleCollisor.yOffset = yOffset or 0
     rectangleCollisor.z = z or 1
@@ -113,6 +115,38 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
     rectangleCollisor.update = function(self, deltaTime)
         self.globalX = parent.transform.x + rectangleCollisor.xOffset
         self.globalY = parent.transform.y + rectangleCollisor.yOffset
+
+        for i,o in ipairs(gameObjects) do
+
+            if o == self.parent then goto continue end
+            
+            if o.rectangleCollisor ~= nil then
+                if checkRectangleToRectangleCollision(self, o.rectangleCollisor) then
+                    self.color.r = 1
+                    self.color.g = 0
+                    self.color.b = 0
+                else
+                    self.color.r = 0
+                    self.color.g = 1
+                    self.color.b = 0
+                end
+            end
+
+            if o.circleCollisor ~= nil then
+
+                if checkCircleToRectangleCollision(o.circleCollisor, self) then
+                    self.color.r = 1
+                    self.color.g = 0
+                    self.color.b = 0
+                else
+                    self.color.r = 0
+                    self.color.g = 1
+                    self.color.b = 0
+                end
+            end
+
+            ::continue::
+        end
     end
 
     return rectangleCollisor
