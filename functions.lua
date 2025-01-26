@@ -27,4 +27,7 @@ function debug()
 
         ::continue::
     end
+ 
+	love.graphics.print(string.format("FPS: %d", fps), 10, 10)
+	love.graphics.print(table.getn(gameObjects), love.graphics.getWidth() - 10)
 end

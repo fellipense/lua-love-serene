@@ -74,6 +74,11 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
             ::continue::
         end
 
+        if checkCircleToBoundaryCollision(self, "top") then self.colliding = true end
+        if checkCircleToBoundaryCollision(self, "right") then self.colliding = true end
+        if checkCircleToBoundaryCollision(self, "bottom") then self.colliding = true end
+        if checkCircleToBoundaryCollision(self, "left") then self.colliding = true end
+
         if self.colliding then
             self.color.r = 1
             self.color.g = 0
@@ -211,6 +216,25 @@ function checkCircleToBoundaryCollision(a, b)
     end
 
     if b == "left" and a.globalX < a.radius then
+        return true
+    end
+end
+
+function checkRectangleToBoundaryCollision(a, b)
+
+    if b == "top" and a.globalY < 0 then
+        return true
+    end
+
+    if b == "right" and a.globalX + a.width > love.graphics.getWidth() then
+        return true
+    end
+
+    if b == "bottom" and a.globalY + a.height > love.graphics.getHeight() then
+        return true
+    end
+
+    if b == "left" and a.globalX < 0 then
         return true
     end
 end

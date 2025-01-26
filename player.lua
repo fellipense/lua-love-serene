@@ -14,18 +14,11 @@ player.speed = 200
 player.xPivot = player.sprite:getWidth()/2
 player.yPivot = player.sprite:getHeight()/2
 player.rectangleCollisor = newRectangleCollisor(player, 30, 20)
+player.destroyIt = false
 
 player.update = function(deltaTime)
     player.rectangleCollisor:update(deltaTime)
     player.rectangleCollisor:centralize()
-
-    for i,o in ipairs(gameObjects) do
-        if o.rectangleCollisor == nil then
-            goto continue
-        end
-
-        ::continue::
-    end
 end
 
 player.draw = function(mode)
