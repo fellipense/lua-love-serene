@@ -6,7 +6,6 @@ require("classes/Projectile")
 require("player")
 require("functions")
 
-tick = require "libs/tick"
 audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
 gameObjects = {}
 elapsedTime = 0
@@ -26,6 +25,10 @@ dummy.draw = function(self, mode)
 	self.rectangleCollisor:draw()
 end
 
+dummy.update = function(deltaTime)
+	dummy.rectangleCollisor:update(deltaTime)
+end
+
 addGameObject(dummy)
 
 
@@ -42,7 +45,6 @@ function love.update(deltaTime)
 	end
 
 	elapsedTime = elapsedTime + deltaTime
-	tick.update(deltaTime)
 	inputUpdate(deltaTime)
 
 	for i,s in ipairs(gameObjects) do
@@ -60,6 +62,7 @@ function love.draw()
 	end
 	love.graphics.print(string.format("FPS: %d", fps), 10, 10)
 	love.graphics.print(table.getn(gameObjects), love.graphics.getWidth() - 10)
+	debug()
 end
 
 function love.keypressed(key)

@@ -1,3 +1,5 @@
+require("functions")
+
 function newCircleCollisor(parent, radius, xOffset, yOffset, z)
     local circleCollisor = {}
     circleCollisor.parent = parent
@@ -9,6 +11,7 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
     circleCollisor.color.r = 0
     circleCollisor.color.g = 1
     circleCollisor.color.b = 0
+    circleCollisor.colliding = false
 
     circleCollisor.globalX = parent.transform.x + circleCollisor.xOffset
     circleCollisor.globalY = parent.transform.y + circleCollisor.yOffset
@@ -48,32 +51,37 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
         self.globalX = parent.transform.x + circleCollisor.xOffset
         self.globalY = parent.transform.y + circleCollisor.yOffset
 
+        self.colliding = false
+
         for i,o in ipairs(gameObjects) do
+
+            if self.parent == o then goto continue end
 
             if o.circleCollisor ~= nil then
                 
                 if checkCircleToCircleCollision(self, o.circleCollisor) then
-                    self.color.r = 1
-                    self.color.g = 0
-                    self.color.b = 0
+                    self.colliding = true
                 end
-                    self.color.r = 0
-                    self.color.g = 1
-                    self.color.b = 0
             end
 
             if o.rectangleCollisor ~= nil then
 
                 if checkCircleToRectangleCollision(self, o.rectangleCollisor) then
-                    self.color.r = 1
-                    self.color.g = 0
-                    self.color.b = 0
-                else 
-                    self.color.r = 0
-                    self.color.g = 1
-                    self.color.b = 0
+                    self.colliding = true
                 end
             end
+
+            ::continue::
+        end
+
+        if self.colliding then
+            self.color.r = 1
+            self.color.g = 0
+            self.color.b = 0
+        else
+            self.color.r = 0
+            self.color.g = 1
+            self.color.b = 0
         end
     end
 
@@ -92,6 +100,7 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
     rectangleCollisor.color.r = 0
     rectangleCollisor.color.g = 1
     rectangleCollisor.color.b = 0
+    rectangleCollisor.colliding = false
 
     rectangleCollisor.globalX = parent.transform.x + rectangleCollisor.xOffset
     rectangleCollisor.globalY = parent.transform.y + rectangleCollisor.yOffset
@@ -116,36 +125,36 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
         self.globalX = parent.transform.x + rectangleCollisor.xOffset
         self.globalY = parent.transform.y + rectangleCollisor.yOffset
 
+        self.colliding = false
+        
         for i,o in ipairs(gameObjects) do
 
             if o == self.parent then goto continue end
-            
+
             if o.rectangleCollisor ~= nil then
                 if checkRectangleToRectangleCollision(self, o.rectangleCollisor) then
-                    self.color.r = 1
-                    self.color.g = 0
-                    self.color.b = 0
-                else
-                    self.color.r = 0
-                    self.color.g = 1
-                    self.color.b = 0
+                    self.colliding = true
                 end
             end
 
             if o.circleCollisor ~= nil then
 
                 if checkCircleToRectangleCollision(o.circleCollisor, self) then
-                    self.color.r = 1
-                    self.color.g = 0
-                    self.color.b = 0
-                else
-                    self.color.r = 0
-                    self.color.g = 1
-                    self.color.b = 0
+                    self.colliding = true
                 end
             end
 
             ::continue::
+        end
+
+        if self.colliding then
+            self.color.r = 1
+            self.color.g = 0
+            self.color.b = 0
+        else 
+            self.color.r = 0
+            self.color.g = 1
+            self.color.b = 0
         end
     end
 
@@ -182,9 +191,9 @@ end
 function checkRectangleToRectangleCollision(a, b)
 
     return a.globalY < b.globalY + b.height
-        or a.globalX + a.width > b.globalX
-        or a.globalY + a.height > b.globalY
-        or a.globalX < b.globalX + b.width
+        and a.globalX + a.width > b.globalX
+        and a.globalY + a.height > b.globalY
+        and a.globalX < b.globalX + b.width
 end
 
 function checkCircleToBoundaryCollision(a, b)
@@ -203,15 +212,5 @@ function checkCircleToBoundaryCollision(a, b)
 
     if b == "left" and a.globalX < a.radius then
         return true
-    end
-end
-
-function clamp(min, max, value)
-    if value > max 
-        then return max
-    elseif value < min 
-        then return min
-    else 
-        return value 
     end
 end
