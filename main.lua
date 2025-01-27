@@ -12,6 +12,7 @@ audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
 dummy = newGameObject(100, 100, nil, nil, nil)
 dummy.width = 100
 dummy.height = 100
+dummy.transform.z = 0
 dummy.rectangleCollisor = newRectangleCollisor(dummy)
 dummy.draw = function(self, mode)
 	love.graphics.rectangle(mode or "line",
@@ -53,7 +54,9 @@ function love.update(deltaTime)
 
 	for i,s in ipairs(gameObjects) do
 		s:update(deltaTime)
+	end	
 
+	for i,s in ipairs(gameObjects) do
 		if s.destroyIt then
 			table.remove(gameObjects, i)
 		end

@@ -9,7 +9,7 @@ sprite = love.graphics.newImage("sprites/ship.png")
 player = newGameObject(
     sprite:getWidth()/2 + playerScreenPadding, 
     love.graphics.getHeight() - (sprite:getHeight()/2 + playerScreenPadding), 
-    0, 0, 1
+    1, 0, 1
 )
 
 player.sprite = sprite

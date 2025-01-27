@@ -5,7 +5,7 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
     circleCollisor.parent = parent
     circleCollisor.xOffset = xOffset or 0
     circleCollisor.yOffset = yOffset or 0
-    circleCollisor.z = z or 1
+    circleCollisor.z = z or parent.transform.z
     circleCollisor.radius = radius or parent.radius or 10
     circleCollisor.color = {}
     circleCollisor.color.r = 0
@@ -58,14 +58,14 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
             if self.parent == o then goto continue end
 
             if o.circleCollisor ~= nil then
-                
+                if o.circleCollisor.z ~= self.z then goto continue end
                 if checkCircleToCircleCollision(self, o.circleCollisor) then
                     self.colliding = true
                 end
             end
 
             if o.rectangleCollisor ~= nil then
-
+                if o.rectangleCollisor.z ~= self.z then goto continue end
                 if checkCircleToRectangleCollision(self, o.rectangleCollisor) then
                     self.colliding = true
                 end
@@ -98,7 +98,7 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
     rectangleCollisor.parent = parent
     rectangleCollisor.xOffset = xOffset or 0
     rectangleCollisor.yOffset = yOffset or 0
-    rectangleCollisor.z = z or 1
+    rectangleCollisor.z = z or parent.transform.z
     rectangleCollisor.width = width or parent.width or 10
     rectangleCollisor.height = height or parent.height or 10
     rectangleCollisor.color = {}
@@ -137,13 +137,14 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
             if o == self.parent then goto continue end
 
             if o.rectangleCollisor ~= nil then
+                if o.rectangleCollisor.z ~= self.z then goto continue end
                 if checkRectangleToRectangleCollision(self, o.rectangleCollisor) then
                     self.colliding = true
                 end
             end
 
             if o.circleCollisor ~= nil then
-
+                if o.circleCollisor.z ~= self.z then goto continue end
                 if checkCircleToRectangleCollision(o.circleCollisor, self) then
                     self.colliding = true
                 end
@@ -151,6 +152,11 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
 
             ::continue::
         end
+
+        if checkRectangleToBoundaryCollision(self, "top") then self.colliding = true end
+        if checkRectangleToBoundaryCollision(self, "right") then self.colliding = true end
+        if checkRectangleToBoundaryCollision(self, "bottom") then self.colliding = true end
+        if checkRectangleToBoundaryCollision(self, "left") then self.colliding = true end
 
         if self.colliding then
             self.color.r = 1

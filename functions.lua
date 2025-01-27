@@ -20,6 +20,7 @@ end
 function log()
     for i,o in ipairs(gameObjects) do
         if o.transform == nil then goto continue end
+        love.graphics.print(o.transform.z, o.transform.x + 25, o.transform.y -20)
 
         if o.rectangleCollisor == nil then goto continue end
         

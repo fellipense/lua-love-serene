@@ -5,7 +5,7 @@ function newProjectile(author, x, y, z, radius, speed, direction)
     projectile = newGameObject(
         author.transform.x, 
         author.transform.y, 
-        author.transform.z, 
+        author.transform.z -1, 
         0, 
         1
     );
@@ -45,8 +45,8 @@ function newProjectile(author, x, y, z, radius, speed, direction)
             self.transform.x = self.transform.x - self.speed * deltaTime
         end
 
-        if checkCircleToBoundaryCollision(self.circleCollisor, "top")
-            then self.destroyIt = true
+        if self.circleCollisor.colliding then
+            self.destroyIt = true
         end
     end
 
