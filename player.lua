@@ -1,6 +1,7 @@
 require("classes/GameObject")
 require("classes/Projectile")
 require("input")
+require("physics")
 
 playerScreenPadding = 20
 sprite = love.graphics.newImage("sprites/ship.png")
@@ -22,19 +23,19 @@ player.update = function(self, deltaTime)
     player.rectangleCollisor:update(deltaTime)
     player.rectangleCollisor:centralize()
 
-    if input.up then
+    if input.up and not checkRectangleToBoundaryCollision(self.rectangleCollisor, "top") then
         player.transform.y = player.transform.y - player.speed * deltaTime
     end
 
-    if input.right then
+    if input.right and not checkRectangleToBoundaryCollision(self.rectangleCollisor, "right") then
         player.transform.x = player.transform.x + player.speed * deltaTime
     end
 
-    if input.down then
+    if input.down and not checkRectangleToBoundaryCollision(self.rectangleCollisor, "bottom") then
         player.transform.y = player.transform.y + player.speed * deltaTime
     end
 
-    if input.left then
+    if input.left and not checkRectangleToBoundaryCollision(self.rectangleCollisor, "left") then
         player.transform.x = player.transform.x - player.speed * deltaTime
     end
 
