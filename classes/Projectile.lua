@@ -15,7 +15,7 @@ function newProjectile(author, x, y, z, radius, speed, direction)
     projectile.destroyIt = false
     projectile.radius = radius or 5
 
-    projectile.circleCollisor = newCircleCollisor(projectile);
+    projectile.circleCollider = newCircleCollider(projectile);
 
     projectile.draw = function(self, mode)
         love.graphics.circle("fill", 
@@ -24,13 +24,13 @@ function newProjectile(author, x, y, z, radius, speed, direction)
             self.transform.size * self.radius
         )
 
-        if drawCollisors then
-            self.circleCollisor:draw()
+        if drawColliders then
+            self.circleCollider:draw()
         end
     end
      
     projectile.update = function(self, deltaTime) 
-        self.circleCollisor:update(deltaTime)
+        self.circleCollider:update(deltaTime)
 
         if self.direction == "up" then
             self.transform.y = self.transform.y - self.speed * deltaTime
@@ -45,7 +45,7 @@ function newProjectile(author, x, y, z, radius, speed, direction)
             self.transform.x = self.transform.x - self.speed * deltaTime
         end
 
-        if self.circleCollisor.colliding then
+        if self.circleCollider.colliding then
             self.destroyIt = true
         end
     end

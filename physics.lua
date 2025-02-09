@@ -1,22 +1,22 @@
 require("functions")
 
-function newCircleCollisor(parent, radius, xOffset, yOffset, z)
-    local circleCollisor = {}
-    circleCollisor.parent = parent
-    circleCollisor.xOffset = xOffset or 0
-    circleCollisor.yOffset = yOffset or 0
-    circleCollisor.z = z or parent.transform.z
-    circleCollisor.radius = radius or parent.radius or 10
-    circleCollisor.color = {}
-    circleCollisor.color.r = 0
-    circleCollisor.color.g = 1
-    circleCollisor.color.b = 0
-    circleCollisor.colliding = false
+function newCircleCollider(parent, radius, xOffset, yOffset, z)
+    local circleCollider = {}
+    circleCollider.parent = parent
+    circleCollider.xOffset = xOffset or 0
+    circleCollider.yOffset = yOffset or 0
+    circleCollider.z = z or parent.transform.z
+    circleCollider.radius = radius or parent.radius or 10
+    circleCollider.color = {}
+    circleCollider.color.r = 0
+    circleCollider.color.g = 1
+    circleCollider.color.b = 0
+    circleCollider.colliding = false
 
-    circleCollisor.globalX = parent.transform.x + circleCollisor.xOffset
-    circleCollisor.globalY = parent.transform.y + circleCollisor.yOffset
+    circleCollider.globalX = parent.transform.x + circleCollider.xOffset
+    circleCollider.globalY = parent.transform.y + circleCollider.yOffset
 
-    circleCollisor.draw = function(self, mode)
+    circleCollider.draw = function(self, mode)
         love.graphics.setColor(self.color.r, self.color.g, self.color.b)
         love.graphics.circle(mode or "line", 
             self.globalX,
@@ -27,16 +27,16 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
 
         for i,o in ipairs(gameObjects) do
 
-            if o.rectangleCollisor ~= nil then
+            if o.rectangleCollider ~= nil then
                 local closePoint = {}
                 closePoint.x = clamp(
-                    o.rectangleCollisor.globalX,
-                    o.rectangleCollisor.globalX + o.rectangleCollisor.width,
+                    o.rectangleCollider.globalX,
+                    o.rectangleCollider.globalX + o.rectangleCollider.width,
                     self.globalX
                 )
                 closePoint.y = clamp(
-                    o.rectangleCollisor.globalY,
-                    o.rectangleCollisor.globalY + o.rectangleCollisor.height,
+                    o.rectangleCollider.globalY,
+                    o.rectangleCollider.globalY + o.rectangleCollider.height,
                     self.globalY
                 )
                 love.graphics.line(
@@ -47,9 +47,9 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
         end
     end
 
-    circleCollisor.update = function(self, deltaTime)
-        self.globalX = parent.transform.x + circleCollisor.xOffset
-        self.globalY = parent.transform.y + circleCollisor.yOffset
+    circleCollider.update = function(self, deltaTime)
+        self.globalX = parent.transform.x + circleCollider.xOffset
+        self.globalY = parent.transform.y + circleCollider.yOffset
 
         self.colliding = false
 
@@ -57,17 +57,19 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
 
             if self.parent == o then goto continue end
 
-            if o.circleCollisor ~= nil then
-                if o.circleCollisor.z ~= self.z then goto continue end
-                if checkCircleToCircleCollision(self, o.circleCollisor) then
-                    self.colliding = true
+            if o.circleCollider ~= nil then
+                if o.circleCollider.z == self.z then 
+                    if checkCircleToCircleCollision(self, o.circleCollider) then
+                        self.colliding = true
+                    end
                 end
             end
 
-            if o.rectangleCollisor ~= nil then
-                if o.rectangleCollisor.z ~= self.z then goto continue end
-                if checkCircleToRectangleCollision(self, o.rectangleCollisor) then
-                    self.colliding = true
+            if o.rectangleCollider ~= nil then
+                if o.rectangleCollider.z == self.z then
+                    if checkCircleToRectangleCollision(self, o.rectangleCollider) then
+                        self.colliding = true
+                    end
                 end
             end
 
@@ -90,32 +92,27 @@ function newCircleCollisor(parent, radius, xOffset, yOffset, z)
         end
     end
 
-    return circleCollisor
+    return circleCollider
 end
 
-function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
-    local rectangleCollisor = {}
-    rectangleCollisor.parent = parent
-    rectangleCollisor.xOffset = xOffset or 0
-    rectangleCollisor.yOffset = yOffset or 0
-    rectangleCollisor.z = z or parent.transform.z
-    rectangleCollisor.width = width or parent.width or 10
-    rectangleCollisor.height = height or parent.height or 10
-    rectangleCollisor.color = {}
-    rectangleCollisor.color.r = 0
-    rectangleCollisor.color.g = 1
-    rectangleCollisor.color.b = 0
-    rectangleCollisor.colliding = false
+function newRectangleCollider(parent, width, height, xOffset, yOffset, z)
+    local rectangleCollider = {}
+    rectangleCollider.parent = parent
+    rectangleCollider.xOffset = xOffset or 0
+    rectangleCollider.yOffset = yOffset or 0
+    rectangleCollider.z = z or parent.transform.z
+    rectangleCollider.width = width or parent.width or 10
+    rectangleCollider.height = height or parent.height or 10
+    rectangleCollider.color = {}
+    rectangleCollider.color.r = 0
+    rectangleCollider.color.g = 1
+    rectangleCollider.color.b = 0
+    rectangleCollider.colliding = false
 
-    rectangleCollisor.globalX = parent.transform.x + rectangleCollisor.xOffset
-    rectangleCollisor.globalY = parent.transform.y + rectangleCollisor.yOffset
+    rectangleCollider.globalX = parent.transform.x + rectangleCollider.xOffset
+    rectangleCollider.globalY = parent.transform.y + rectangleCollider.yOffset
 
-    rectangleCollisor.centralize = function(self)
-        self.xOffset = self.width/2 * -1
-        self.yOffset = self.height/2 * -1
-    end
-
-    rectangleCollisor.draw = function(self, mode)
+    rectangleCollider.draw = function(self, mode)
         love.graphics.setColor(self.color.r, self.color.g, self.color.b)
         love.graphics.rectangle(mode or "line", 
             self.globalX,
@@ -126,9 +123,9 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
         love.graphics.setColor(1, 1, 1)
     end
 
-    rectangleCollisor.update = function(self, deltaTime)
-        self.globalX = parent.transform.x + rectangleCollisor.xOffset
-        self.globalY = parent.transform.y + rectangleCollisor.yOffset
+    rectangleCollider.update = function(self, deltaTime)
+        self.globalX = parent.transform.x + rectangleCollider.xOffset
+        self.globalY = parent.transform.y + rectangleCollider.yOffset
 
         self.colliding = false
         
@@ -136,17 +133,19 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
 
             if o == self.parent then goto continue end
 
-            if o.rectangleCollisor ~= nil then
-                if o.rectangleCollisor.z ~= self.z then goto continue end
-                if checkRectangleToRectangleCollision(self, o.rectangleCollisor) then
-                    self.colliding = true
+            if o.rectangleCollider ~= nil then
+                if o.rectangleCollider.z == self.z then 
+                    if checkRectangleToRectangleCollision(self, o.rectangleCollider) then
+                        self.colliding = true
+                    end
                 end
             end
 
-            if o.circleCollisor ~= nil then
-                if o.circleCollisor.z ~= self.z then goto continue end
-                if checkCircleToRectangleCollision(o.circleCollisor, self) then
-                    self.colliding = true
+            if o.circleCollider ~= nil then
+                if o.circleCollider.z == self.z then 
+                    if checkCircleToRectangleCollision(o.circleCollider, self) then
+                        self.colliding = true
+                    end
                 end
             end
 
@@ -169,7 +168,7 @@ function newRectangleCollisor(parent, width, height, xOffset, yOffset, z)
         end
     end
 
-    return rectangleCollisor
+    return rectangleCollider
 end
 
 function checkCircleToCircleCollision(a, b)

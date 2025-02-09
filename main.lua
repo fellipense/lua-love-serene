@@ -13,7 +13,9 @@ dummy = newGameObject(100, 100, nil, nil, nil)
 dummy.width = 100
 dummy.height = 100
 dummy.transform.z = 0
-dummy.rectangleCollisor = newRectangleCollisor(dummy)
+dummy.destroyIt = false
+dummy.life = 3
+dummy.rectangleCollider = newRectangleCollider(dummy)
 dummy.draw = function(self, mode)
 	love.graphics.rectangle(mode or "line",
 		self.transform.x,
@@ -22,12 +24,19 @@ dummy.draw = function(self, mode)
 		self.height
 	)
 
-	if drawCollisors then
-		self.rectangleCollisor:draw()
+	if drawColliders then
+		self.rectangleCollider:draw()
 	end
 end
-dummy.update = function(deltaTime)
-	dummy.rectangleCollisor:update(deltaTime)
+dummy.update = function(self, deltaTime)
+
+	if dummy.rectangleCollider.colliding then
+		dummy.life = dummy.life -1
+	end
+
+	if dummy.life <= 0 then
+		dummy.destroyIt = true
+	end
 end
 
 function love.load()
@@ -57,6 +66,17 @@ function love.update(deltaTime)
 	end	
 
 	for i,s in ipairs(gameObjects) do
+		
+		if s.rectangleCollider ~= nil then
+			s.rectangleCollider:update(deltaTime)
+		end
+
+		if s.circleCollider ~= nil then
+			s.circleCollider:update(deltaTime)
+		end
+	end
+
+	for i,s in ipairs(gameObjects) do
 		if s.destroyIt then
 			table.remove(gameObjects, i)
 		end
@@ -69,9 +89,9 @@ function love.draw()
 	end
 	
 	if debug then
-		drawCollisors = true
+		drawColliders = true
 		log()
 	else
-		drawCollisors = false
+		drawColliders = false
 	end
 end

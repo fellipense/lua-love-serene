@@ -22,9 +22,13 @@ function log()
         if o.transform == nil then goto continue end
         love.graphics.print(o.transform.z, o.transform.x + 25, o.transform.y -20)
 
-        if o.rectangleCollisor == nil then goto continue end
-        
-        love.graphics.print(tostring(o.rectangleCollisor.colliding), o.transform.x + 25, o.transform.y)
+        if o.rectangleCollider ~= nil then 
+            love.graphics.print(tostring(o.rectangleCollider.colliding), o.transform.x + 25, o.transform.y)
+        end
+
+        if o.life ~= nil then
+            love.graphics.print(tostring(o.life), o.transform.x + 55, o.transform.y)
+        end
 
         ::continue::
     end

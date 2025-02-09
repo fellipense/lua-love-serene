@@ -16,26 +16,24 @@ player.sprite = sprite
 player.speed = 400
 player.xPivot = player.sprite:getWidth()/2
 player.yPivot = player.sprite:getHeight()/2
-player.rectangleCollisor = newRectangleCollisor(player, 30, 20)
+player.rectangleCollider = newRectangleCollider(player, 30, 20, -15, -10)
 player.destroyIt = false
 
 player.update = function(self, deltaTime)
-    player.rectangleCollisor:update(deltaTime)
-    player.rectangleCollisor:centralize()
 
-    if input.up and not checkRectangleToBoundaryCollision(self.rectangleCollisor, "top") then
+    if input.up and not checkRectangleToBoundaryCollision(self.rectangleCollider, "top") then
         player.transform.y = player.transform.y - player.speed * deltaTime
     end
 
-    if input.right and not checkRectangleToBoundaryCollision(self.rectangleCollisor, "right") then
+    if input.right and not checkRectangleToBoundaryCollision(self.rectangleCollider, "right") then
         player.transform.x = player.transform.x + player.speed * deltaTime
     end
 
-    if input.down and not checkRectangleToBoundaryCollision(self.rectangleCollisor, "bottom") then
+    if input.down and not checkRectangleToBoundaryCollision(self.rectangleCollider, "bottom") then
         player.transform.y = player.transform.y + player.speed * deltaTime
     end
 
-    if input.left and not checkRectangleToBoundaryCollision(self.rectangleCollisor, "left") then
+    if input.left and not checkRectangleToBoundaryCollision(self.rectangleCollider, "left") then
         player.transform.x = player.transform.x - player.speed * deltaTime
     end
 
@@ -58,7 +56,7 @@ player.draw = function(mode)
         player.xPivot, player.yPivot
     )
 
-    if drawCollisors then
-        player.rectangleCollisor:draw()
+    if drawColliders then
+        player.rectangleCollider:draw()
     end
 end
