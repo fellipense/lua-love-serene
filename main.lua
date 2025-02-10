@@ -1,5 +1,6 @@
 require("classes/GameObject")
 require("classes/Projectile")
+require("classes/Animator")
 
 require("game")
 require("player")
@@ -15,27 +16,56 @@ dummy.height = 100
 dummy.transform.z = 0
 dummy.destroyIt = false
 dummy.life = 3
-dummy.rectangleCollider = newRectangleCollider(dummy)
-dummy.draw = function(self, mode)
-	love.graphics.rectangle(mode or "line",
-		self.transform.x,
-		self.transform.y,
-		self.width,
-		self.height
-	)
+dummy.timer = 0
+dummy.sprite = love.graphics.newImage("sprites/vilao/idle/Sprite-1.png")
+dummy.die = false
+dummy.circleCollider = newCircleCollider(
+	dummy, 
+	dummy.sprite:getWidth()/2, 
+	dummy.sprite:getWidth()/2, 
+	dummy.sprite:getHeight()/2
+)
+dummy.animator = newAnimator(dummy, "idle")
+dummy.animator:addAnimation("idle", "sprites/vilao/idle/", 2, 3)
+dummy.animator:addAnimation("die", "sprites/vilao/Transform/", 5, 5)
+dummy.animator:playAnimation("die")
+
+dummy.draw = function(self)
+	love.graphics.draw(dummy.sprite, dummy.transform.x, dummy.transform.y)
+	love.graphics.print(dummy.animator.timer, dummy.transform.x, dummy.transform.y - 10)
+	love.graphics.print(dummy.animator.step, dummy.transform.x, dummy.transform.y - 20)
 
 	if drawColliders then
-		self.rectangleCollider:draw()
+		self.circleCollider:draw()
 	end
 end
-dummy.update = function(self, deltaTime)
 
-	if dummy.rectangleCollider.colliding then
-		dummy.life = dummy.life -1
+dummy.update = function(self, deltaTime)
+	dummy.animator:update(deltaTime)
+
+	if dummy.circleCollider ~= nil then
+		if dummy.circleCollider.colliding then
+			dummy.life = dummy.life -1
+		end
 	end
 
 	if dummy.life <= 0 then
-		dummy.destroyIt = true
+		dummy.die = true
+	end
+
+	if dummy.die then
+		
+		if dummy.animator.currentAnimation ~= "die" then
+			dummy.animator:setAnimation("die")
+		end
+
+		dummy.timer = dummy.timer + deltaTime
+
+		if dummy.circleCollider ~= nil then dummy.circleCollider = nil end
+
+		if dummy.timer > 4 then
+			dummy.destroyIt = true
+		end
 	end
 end
 
