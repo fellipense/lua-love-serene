@@ -28,7 +28,6 @@ dummy.circleCollider = newCircleCollider(
 dummy.animator = newAnimator(dummy, "idle")
 dummy.animator:addAnimation("idle", "sprites/vilao/idle/", 2, 3)
 dummy.animator:addAnimation("die", "sprites/vilao/Transform/", 5, 5)
-dummy.animator:playAnimation("die")
 
 dummy.draw = function(self)
 	love.graphics.draw(dummy.sprite, dummy.transform.x, dummy.transform.y)
@@ -54,16 +53,13 @@ dummy.update = function(self, deltaTime)
 	end
 
 	if dummy.die then
-		
-		if dummy.animator.currentAnimation ~= "die" then
-			dummy.animator:setAnimation("die")
+
+		dummy.circleCollider = nil
+		if dummy.animator.currentAnimation ~= "die" then 
+			dummy.animator:playAnimation("die")
 		end
 
-		dummy.timer = dummy.timer + deltaTime
-
-		if dummy.circleCollider ~= nil then dummy.circleCollider = nil end
-
-		if dummy.timer > 4 then
+		if dummy.animator.event == "die-end" then
 			dummy.destroyIt = true
 		end
 	end

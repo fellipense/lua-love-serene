@@ -22,8 +22,8 @@ function newAnimator(parent, default)
 
     animator.playAnimation = function(self, name)
         self.currentAnimation = name
-        timer = 0
-        step = 1
+        self.timer = 0
+        self.step = 1
     end
     
     animator.update = function(self, deltaTime)
@@ -32,10 +32,15 @@ function newAnimator(parent, default)
         local frames = #currentAnimation.frames
         local fps = currentAnimation.fps
 
+        if self.step == 1 then
+            self.event = self.currentAnimation.."-start"
+        end
+
         if self.timer >= 1/fps then
             self.step = self.step + 1
             if self.step > frames then
                 self.step = 1
+                self.event = self.currentAnimation.."-end"
             end
             self.timer = 0
         end
