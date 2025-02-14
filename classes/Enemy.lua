@@ -1,10 +1,11 @@
-function newEnemy(x, y, z, width, height, life)
+function newEnemy(x, y, z, speed, life)
     local dummy = newGameObject(x or 100, y or 100, nil, nil, nil)
-    dummy.width = width or 100
-    dummy.height = height or 100
+    dummy.width = 100
+    dummy.height = 100
     dummy.transform.z = z or 0
     dummy.destroyIt = false
     dummy.die = false
+    dummy.speed = speed or 50
     dummy.life = life or 3
     dummy.timer = 0
     dummy.sprite = love.graphics.newImage("sprites/vilao/idle/Sprite-1.png")
@@ -22,11 +23,17 @@ function newEnemy(x, y, z, width, height, life)
         love.graphics.draw(self.sprite, self.transform.x, self.transform.y)
 
         if drawColliders then
-            self.circleCollider:draw()
+            if self.circleCollider ~= nil then
+                self.circleCollider:draw()
+            end
         end
     end
 
     dummy.update = function(self, deltaTime)
+
+        if not self.die then
+            self.transform.y = self.transform.y + self.speed * deltaTime
+        end
 
         if self.circleCollider ~= nil then
             if self.circleCollider.colliding then
