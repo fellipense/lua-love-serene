@@ -11,7 +11,6 @@ function newCircleCollider(parent, radius, xOffset, yOffset, z)
     circleCollider.color.r = 0
     circleCollider.color.g = 1
     circleCollider.color.b = 0
-    circleCollider.colliding = false
 
     circleCollider.globalX = parent.transform.x + circleCollider.xOffset
     circleCollider.globalY = parent.transform.y + circleCollider.yOffset
@@ -50,46 +49,6 @@ function newCircleCollider(parent, radius, xOffset, yOffset, z)
     circleCollider.update = function(self, deltaTime)
         self.globalX = parent.transform.x + circleCollider.xOffset
         self.globalY = parent.transform.y + circleCollider.yOffset
-
-        self.colliding = false
-
-        for i,o in ipairs(gameObjects) do
-
-            if self.parent == o then goto continue end
-
-            if o.circleCollider ~= nil then
-                if o.circleCollider.z == self.z then 
-                    if checkCircleToCircleCollision(self, o.circleCollider) then
-                        self.colliding = true
-                    end
-                end
-            end
-
-            if o.rectangleCollider ~= nil then
-                if o.rectangleCollider.z == self.z then
-                    if checkCircleToRectangleCollision(self, o.rectangleCollider) then
-                        self.colliding = true
-                    end
-                end
-            end
-
-            ::continue::
-        end
-
-        if checkCircleToBoundaryCollision(self, "top") then self.colliding = true end
-        if checkCircleToBoundaryCollision(self, "right") then self.colliding = true end
-        if checkCircleToBoundaryCollision(self, "bottom") then self.colliding = true end
-        if checkCircleToBoundaryCollision(self, "left") then self.colliding = true end
-
-        if self.colliding then
-            self.color.r = 1
-            self.color.g = 0
-            self.color.b = 0
-        else
-            self.color.r = 0
-            self.color.g = 1
-            self.color.b = 0
-        end
     end
 
     return circleCollider
@@ -126,46 +85,6 @@ function newRectangleCollider(parent, width, height, xOffset, yOffset, z)
     rectangleCollider.update = function(self, deltaTime)
         self.globalX = parent.transform.x + rectangleCollider.xOffset
         self.globalY = parent.transform.y + rectangleCollider.yOffset
-
-        self.colliding = false
-        
-        for i,o in ipairs(gameObjects) do
-
-            if o == self.parent then goto continue end
-
-            if o.rectangleCollider ~= nil then
-                if o.rectangleCollider.z == self.z then 
-                    if checkRectangleToRectangleCollision(self, o.rectangleCollider) then
-                        self.colliding = true
-                    end
-                end
-            end
-
-            if o.circleCollider ~= nil then
-                if o.circleCollider.z == self.z then 
-                    if checkCircleToRectangleCollision(o.circleCollider, self) then
-                        self.colliding = true
-                    end
-                end
-            end
-
-            ::continue::
-        end
-
-        if checkRectangleToBoundaryCollision(self, "top") then self.colliding = true end
-        if checkRectangleToBoundaryCollision(self, "right") then self.colliding = true end
-        if checkRectangleToBoundaryCollision(self, "bottom") then self.colliding = true end
-        if checkRectangleToBoundaryCollision(self, "left") then self.colliding = true end
-
-        if self.colliding then
-            self.color.r = 1
-            self.color.g = 0
-            self.color.b = 0
-        else 
-            self.color.r = 0
-            self.color.g = 1
-            self.color.b = 0
-        end
     end
 
     return rectangleCollider

@@ -3,6 +3,7 @@ require("physics")
 
 function newProjectile(author, x, y, z, radius, speed, direction)
     projectile = newGameObject(
+        "bullet",
         author.transform.x, 
         author.transform.y, 
         author.transform.z -1, 

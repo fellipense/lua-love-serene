@@ -7,6 +7,7 @@ playerScreenPadding = 20
 sprite = love.graphics.newImage("sprites/ship.png")
 
 player = newGameObject(
+    "player",
     sprite:getWidth()/2 + playerScreenPadding, 
     love.graphics.getHeight() - (sprite:getHeight()/2 + playerScreenPadding), 
     1, 0, 1

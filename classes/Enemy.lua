@@ -1,5 +1,5 @@
 function newEnemy(x, y, z, speed, life)
-    local dummy = newGameObject(x or 100, y or 100, nil, nil, nil)
+    local dummy = newGameObject("enemy", x or 100, y or 100, nil, nil, nil)
     dummy.width = 100
     dummy.height = 100
     dummy.transform.z = z or 0

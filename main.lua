@@ -18,6 +18,7 @@ function love.load()
 end
 
 function love.update(deltaTime)
+	math.randomseed(os.time() + elapsedTime)
 
 	if elapsedTime + deltaTime > math.ceil(elapsedTime) then 
 		fps = math.floor(1 / deltaTime);
