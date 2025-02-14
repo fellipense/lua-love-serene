@@ -7,16 +7,12 @@ function newCircleCollider(parent, radius, xOffset, yOffset, z)
     circleCollider.yOffset = yOffset or 0
     circleCollider.z = z or parent.transform.z
     circleCollider.radius = radius or parent.radius or 10
-    circleCollider.color = {}
-    circleCollider.color.r = 0
-    circleCollider.color.g = 1
-    circleCollider.color.b = 0
 
     circleCollider.globalX = parent.transform.x + circleCollider.xOffset
     circleCollider.globalY = parent.transform.y + circleCollider.yOffset
 
     circleCollider.draw = function(self, mode)
-        love.graphics.setColor(self.color.r, self.color.g, self.color.b)
+        love.graphics.setColor(0, 1, 0)
         love.graphics.circle(mode or "line", 
             self.globalX,
             self.globalY, 
@@ -62,17 +58,12 @@ function newRectangleCollider(parent, width, height, xOffset, yOffset, z)
     rectangleCollider.z = z or parent.transform.z
     rectangleCollider.width = width or parent.width or 10
     rectangleCollider.height = height or parent.height or 10
-    rectangleCollider.color = {}
-    rectangleCollider.color.r = 0
-    rectangleCollider.color.g = 1
-    rectangleCollider.color.b = 0
-    rectangleCollider.colliding = false
 
     rectangleCollider.globalX = parent.transform.x + rectangleCollider.xOffset
     rectangleCollider.globalY = parent.transform.y + rectangleCollider.yOffset
 
     rectangleCollider.draw = function(self, mode)
-        love.graphics.setColor(self.color.r, self.color.g, self.color.b)
+        love.graphics.setColor(0, 1, 0)
         love.graphics.rectangle(mode or "line", 
             self.globalX,
             self.globalY, 

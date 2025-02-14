@@ -1,5 +1,6 @@
 function newEnemy(x, y, z, speed, life)
     local dummy = newGameObject("enemy", x or 100, y or 100, nil, nil, nil)
+    dummy.type = "enemy"
     dummy.width = 100
     dummy.height = 100
     dummy.transform.z = z or 0
@@ -36,8 +37,13 @@ function newEnemy(x, y, z, speed, life)
         end
 
         if self.circleCollider ~= nil then
-            if self.circleCollider.colliding then
-                self.life = self.life -1
+            for i,o in ipairs(gameObjects) do
+                if o.type == "bullet" then
+                    if checkCircleToCircleCollision(self.circleCollider, o.circleCollider) then
+                        self.life = self.life -1
+                        o.destroyIt = true
+                    end
+                end
             end
         end
 

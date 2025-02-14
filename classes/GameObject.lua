@@ -4,7 +4,7 @@ function newGameObject(name, x, y, z, r, size)
     local gameObject = {}
 
     gameObject.name = (name or "unknown") .. "-" .. #gameObjects
-    gameObject.types = {}
+    gameObject.type = "default"
     gameObject.display = true
     gameObject.destroyIt = false
     gameObject.transform = newTransform(x, y, z, r, size)

@@ -11,6 +11,7 @@ function newProjectile(author, x, y, z, radius, speed, direction)
         1
     );
 
+    projectile.type = "bullet"
     projectile.direction = direction or "up"
     projectile.speed = speed or 1000
     projectile.destroyIt = false
@@ -36,19 +37,7 @@ function newProjectile(author, x, y, z, radius, speed, direction)
         if self.direction == "up" then
             self.transform.y = self.transform.y - self.speed * deltaTime
         end
-        if self.direction == "right" then
-            self.transform.x = self.transform.x + self.speed * deltaTime
-        end
-        if self.direction == "down" then
-            self.transform.y = self.transform.y + self.speed * deltaTime
-        end
-        if self.direction == "left" then
-            self.transform.x = self.transform.x - self.speed * deltaTime
-        end
-
-        if self.circleCollider.colliding then
-            self.destroyIt = true
-        end
+        
     end
 
     return projectile
