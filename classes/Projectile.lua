@@ -34,10 +34,11 @@ function newProjectile(author, x, y, z, radius, speed, direction)
     projectile.update = function(self, deltaTime) 
         self.circleCollider:update(deltaTime)
 
-        if self.direction == "up" then
-            self.transform.y = self.transform.y - self.speed * deltaTime
+        self.transform.y = self.transform.y - self.speed * deltaTime
+    
+        if checkCircleToBoundaryCollision(self.circleCollider, "top") then
+            self.destroyIt = true
         end
-        
     end
 
     return projectile

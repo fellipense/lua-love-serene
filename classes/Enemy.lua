@@ -37,6 +37,11 @@ function newEnemy(x, y, z, speed, life)
         end
 
         if self.circleCollider ~= nil then
+
+            if checkCircleToBoundaryCollision(self.circleCollider, "bottom") then
+                gameOver = true
+            end
+
             for i,o in ipairs(gameObjects) do
                 if o.type == "bullet" then
                     if checkCircleToCircleCollision(self.circleCollider, o.circleCollider) then
@@ -60,6 +65,7 @@ function newEnemy(x, y, z, speed, life)
 
             if self.animator.event == "die-end" then
                 self.destroyIt = true
+                kills = kills + 1
             end
         end
     end

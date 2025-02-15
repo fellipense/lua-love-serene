@@ -22,6 +22,14 @@ player.destroyIt = false
 
 player.update = function(self, deltaTime)
 
+    for i,o in ipairs(gameObjects) do
+        if o.type == "enemy" and o.circleCollider ~= nil then
+            if checkCircleToRectangleCollision(o.circleCollider, player.rectangleCollider) then
+                gameOver = true
+            end
+        end
+    end
+
     if input.up and not checkRectangleToBoundaryCollision(self.rectangleCollider, "top") then
         player.transform.y = player.transform.y - player.speed * deltaTime
     end

@@ -31,6 +31,10 @@ function log()
             love.graphics.print(tostring(o.life), o.transform.x + 75, o.transform.y)
         end
 
+        if o.speed ~= nil then
+            love.graphics.print(tostring(o.speed), o.transform.x, o.transform.y + 80)
+        end
+
         ::continue::
     end
  
