@@ -12,7 +12,7 @@ require("input")
 audio1 = love.audio.newSource("audio/C418-Aria_Math.mp3", "stream")
 function love.load()
 	love.audio.play(audio1)
-	love.window.setTitle("serene")
+	-- love.window.setTitle("serene")
 
 	addGameObject(player)
 end
